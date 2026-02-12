@@ -9,4 +9,6 @@ public interface UserService {
     List<User> getAllUsers();
 
     User createUser(String username, String email) throws Exception;
+
+    void runTest();
 }

@@ -4,6 +4,7 @@ import com.company.backend.model.entity.User;
 import com.company.backend.repository.UserRepository;
 import com.company.backend.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,5 +32,15 @@ public class UserServiceImpl implements UserService {
             throw new Exception("User email already exist");
 
         return userRepository.save(new User(username, email));
+    }
+
+    @Override
+    @Transactional
+    public void runTest() {
+        User user = userRepository.findById(1L).orElseThrow();
+
+        System.out.println("User loaded");
+        System.out.println("Accessing orders...");
+        System.out.println(user.getOrders().size());
     }
 }
