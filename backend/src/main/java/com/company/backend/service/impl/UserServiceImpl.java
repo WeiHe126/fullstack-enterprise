@@ -36,11 +36,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void runTest() {
+    public void testDirtyChecking() {
         User user = userRepository.findById(1L).orElseThrow();
 
-        System.out.println("User loaded");
-        System.out.println("Accessing orders...");
-        System.out.println(user.getOrders().size());
+        System.out.println("Before change: " + user.getName());
+
+        user.setName("NuevoNombre");
+
+        System.out.println("After change: " + user.getName());
+    }
+
+    @Override
+    @Transactional
+    public User loadUser() {
+        return userRepository.findById(1L).orElseThrow();
+    }
+
+    @Override
+    @Transactional
+    public void testFlush() {
+        User user = userRepository.findById(1L).orElseThrow();
+        user.setName("X");
+
+        userRepository.findAll(); // aquí Hibernate puede hacer flush antes
     }
 }

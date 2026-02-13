@@ -10,5 +10,9 @@ public interface UserService {
 
     User createUser(String username, String email) throws Exception;
 
-    void runTest();
+    void testDirtyChecking();
+
+    User loadUser();
+
+    void testFlush();
 }

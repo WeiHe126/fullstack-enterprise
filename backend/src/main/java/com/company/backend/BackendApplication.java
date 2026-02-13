@@ -19,7 +19,7 @@ public class BackendApplication {
 	@Bean
 	public CommandLineRunner test(UserService userService){
 		return args -> {
-			userService.runTest();
+			userService.testFlush();
 		};
 	}
 }
