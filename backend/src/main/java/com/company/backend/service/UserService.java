@@ -1,5 +1,6 @@
 package com.company.backend.service;
 
+import com.company.backend.model.dto.ChangeEmailRequestDto;
 import com.company.backend.model.entity.User;
 
 import java.util.List;
@@ -10,9 +11,5 @@ public interface UserService {
 
     User createUser(String username, String email) throws Exception;
 
-    void testDirtyChecking();
-
-    User loadUser();
-
-    void testFlush();
+    void changeEmail(Long id, ChangeEmailRequestDto request);
 }

@@ -15,11 +15,4 @@ public class BackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
 	}
-
-	@Bean
-	public CommandLineRunner test(UserService userService){
-		return args -> {
-			userService.testFlush();
-		};
-	}
 }

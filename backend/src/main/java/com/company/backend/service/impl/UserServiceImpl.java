@@ -1,11 +1,16 @@
 package com.company.backend.service.impl;
 
+import com.company.backend.exception.EmailAlreadyExistsException;
+import com.company.backend.exception.UserNotFoundException;
+import com.company.backend.model.dto.ChangeEmailRequestDto;
 import com.company.backend.model.entity.User;
 import com.company.backend.repository.UserRepository;
 import com.company.backend.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.yaml.snakeyaml.events.Event;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,28 +41,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void testDirtyChecking() {
-        User user = userRepository.findById(1L).orElseThrow();
+    public void changeEmail(Long id, ChangeEmailRequestDto request) {
 
-        System.out.println("Before change: " + user.getName());
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 
-        user.setName("NuevoNombre");
+        Optional<User> userWithEmail = userRepository.findByEmail(request.getEmail());
 
-        System.out.println("After change: " + user.getName());
-    }
+        if(userWithEmail.isPresent())
+            throw new EmailAlreadyExistsException(request.getEmail());
 
-    @Override
-    @Transactional
-    public User loadUser() {
-        return userRepository.findById(1L).orElseThrow();
-    }
-
-    @Override
-    @Transactional
-    public void testFlush() {
-        User user = userRepository.findById(1L).orElseThrow();
-        user.setName("X");
-
-        userRepository.findAll(); // aquí Hibernate puede hacer flush antes
+        user.setEmail(request.getEmail());
     }
 }
