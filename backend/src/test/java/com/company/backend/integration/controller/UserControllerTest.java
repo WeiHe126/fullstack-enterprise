@@ -1,0 +1,106 @@
+package com.company.backend.integration.controller;
+
+import com.company.backend.model.entity.User;
+import com.company.backend.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletException;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
+
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
+public class UserControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private PodamFactory factory;
+
+    @Before
+    public void setUp() {
+        userRepository.deleteAll();
+        factory = new PodamFactoryImpl();
+    }
+
+    @Test
+    public void testListUsersEmpty() throws Exception {
+        mockMvc.perform(get("/api/users"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    public void testListUsers() throws Exception {
+
+        User user1 = factory.manufacturePojo(User.class);
+        User user2 = factory.manufacturePojo(User.class);
+
+        user1.setId(null);
+        user2.setId(null);
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+
+        mockMvc.perform(get("/api/users"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].name", is(user1.getName())))
+                .andExpect(jsonPath("$[1].name", is(user2.getName())));
+    }
+
+    @Test(expected = ServletException.class)
+    public void testCreateUserError() throws Exception {
+
+        User user1 = factory.manufacturePojo(User.class);
+        user1.setId(null);
+
+        userRepository.save(user1);
+
+        mockMvc.perform(post("/api/users")
+                    .param("username", user1.getName())
+                    .param("email", user1.getEmail())
+                    .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isInternalServerError());
+
+    }
+
+    @Test
+    public void testCreateUserSucess() throws Exception {
+
+        User user1 = factory.manufacturePojo(User.class);
+        user1.setId(null);
+
+        mockMvc.perform(post("/api/users")
+                        .param("username", user1.getName())
+                        .param("email", user1.getEmail())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.name", is(user1.getName())));
+    }
+
+}
