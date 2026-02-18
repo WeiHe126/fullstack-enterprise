@@ -38,8 +38,10 @@ pipeline {
                 SONAR_HOST_URL = 'http://sonarqube:9000'
             }
             steps {
-                withSonarQubeEnv('sonar') {
-                    sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'
+                dir('backend') {
+                    withSonarQubeEnv('sonar') {
+                        sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'
+                    }
                 }
             }
         }
