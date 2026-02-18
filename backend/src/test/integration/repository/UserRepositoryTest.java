@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
-import javax.validation.constraints.AssertTrue;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)

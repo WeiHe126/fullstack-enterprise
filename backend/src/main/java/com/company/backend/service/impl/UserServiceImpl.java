@@ -8,9 +8,7 @@ import com.company.backend.repository.UserRepository;
 import com.company.backend.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.yaml.snakeyaml.events.Event;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> existUser = userRepository.findByEmail(email);
 
-        if(existUser.isPresent())
+        if (existUser.isPresent())
             throw new Exception("User email already exist");
 
         return userRepository.save(new User(username, email));
@@ -47,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> userWithEmail = userRepository.findByEmail(request.getEmail());
 
-        if(userWithEmail.isPresent())
+        if (userWithEmail.isPresent())
             throw new EmailAlreadyExistsException(request.getEmail());
 
         user.setEmail(request.getEmail());

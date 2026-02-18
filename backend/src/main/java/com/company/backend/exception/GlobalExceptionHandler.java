@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public  ResponseEntity<ProblemDetail> handleNotFound(UserNotFoundException ex, HttpServletRequest request){
+    public ResponseEntity<ProblemDetail> handleNotFound(UserNotFoundException ex, HttpServletRequest request) {
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.NOT_FOUND,
@@ -29,7 +29,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
-    public  ResponseEntity<ProblemDetail> handleEmailAlreadyExist(EmailAlreadyExistsException ex, HttpServletRequest request){
+    public ResponseEntity<ProblemDetail> handleEmailAlreadyExist(EmailAlreadyExistsException ex,
+                                                                 HttpServletRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.CONFLICT,
                 ex.getMessage()

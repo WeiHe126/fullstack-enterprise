@@ -28,7 +28,7 @@ pipeline {
         stage('Test') {
             steps {
                 dir('backend') {
-                    sh 'mvn test'
+                    sh 'mvn clean verify'
                 }
             }
         }

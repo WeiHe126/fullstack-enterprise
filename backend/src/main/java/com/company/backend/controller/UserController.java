@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping
-    List<UserResponseDto> listUsers(){
+    List<UserResponseDto> listUsers() {
         List<User> users = userService.getAllUsers();
 
         return users.stream().map(u -> new UserResponseDto(u.getId(), u.getName())).toList();

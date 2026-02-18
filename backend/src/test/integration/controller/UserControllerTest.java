@@ -17,9 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -81,9 +85,9 @@ public class UserControllerTest {
         userRepository.save(user1);
 
         mockMvc.perform(post("/api/users")
-                    .param("username", user1.getName())
-                    .param("email", user1.getEmail())
-                    .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                        .param("username", user1.getName())
+                        .param("email", user1.getEmail())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isInternalServerError());
 
     }

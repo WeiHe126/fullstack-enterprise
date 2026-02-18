@@ -37,7 +37,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetAllUsers(){
+    public void testGetAllUsers() {
 
         List<User> userList = factory.manufacturePojo(List.class, User.class);
 
