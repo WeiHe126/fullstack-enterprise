@@ -19,20 +19,26 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                dir('backend') {
+                    sh 'mvn clean compile'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                dir('backend') {
+                    sh 'mvn test'
+                }
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv("${SONARQUBE_ENV}") {
-                    sh 'mvn sonar:sonar'
+                dir('backend') {
+                    withSonarQubeEnv('sonar') {
+                        sh 'mvn sonar:sonar'
+                    }
                 }
             }
         }
