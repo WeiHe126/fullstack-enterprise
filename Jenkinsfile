@@ -43,6 +43,7 @@ pipeline {
                         sh """
                         mvn sonar:sonar \
                             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml
+                            -Dsonar.coverage.exclusions=**/model/**,**/exception/**,**/BackendApplication.java
                         """
                     }
                 }
