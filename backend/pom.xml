@@ -113,7 +113,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Surefire para tests unitarios -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -122,12 +121,14 @@
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
+                    <excludes>
+                        <exclude>**/*IT.java</exclude>
+                    </excludes>
                     <forkCount>1</forkCount>
                     <reuseForks>true</reuseForks>
                 </configuration>
             </plugin>
 
-            <!-- Failsafe para tests de integración -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -147,13 +148,18 @@
                 </executions>
             </plugin>
 
-            <!-- JaCoCo -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.10</version>
+                <configuration>
+                    <excludes>
+                        <exclude>com/company/backend/model/**</exclude>
+                        <exclude>com/company/backend/exception/**</exclude>
+                        <exclude>com/company/backend/BackendApplication.class</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
-                    <!-- Cobertura unit test -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
@@ -167,7 +173,13 @@
                             <goal>report</goal>
                         </goals>
                     </execution>
-                    <!-- Cobertura integration test -->
+
+                    <execution>
+                        <id>prepare-agent-integration</id>
+                        <goals>
+                            <goal>prepare-agent-integration</goal>
+                        </goals>
+                    </execution>
                     <execution>
                         <id>report-integration</id>
                         <phase>verify</phase>
@@ -182,7 +194,6 @@
                 </executions>
             </plugin>
 
-            <!-- Sonar -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
