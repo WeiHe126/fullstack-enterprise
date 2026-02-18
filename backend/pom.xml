@@ -172,6 +172,13 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>com/company/backend/model/**</exclude>
+                                <exclude>com/company/backend/exception/**</exclude>
+                                <exclude>com/company/backend/BackendApplication.class</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
 
                     <execution>
@@ -193,6 +200,11 @@
                                 <format>XML</format>
                                 <format>HTML</format>
                             </formats>
+                            <excludes>
+                                <exclude>com/company/backend/model/**</exclude>
+                                <exclude>com/company/backend/exception/**</exclude>
+                                <exclude>com/company/backend/BackendApplication.class</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
