@@ -6,21 +6,21 @@ import com.company.backend.model.dto.ChangeEmailRequestDto;
 import com.company.backend.model.entity.User;
 import com.company.backend.repository.UserRepository;
 import com.company.backend.service.impl.UserServiceImpl;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.List;
 import java.util.Optional;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
     @InjectMocks
@@ -31,7 +31,7 @@ public class UserServiceTest {
 
     private PodamFactory factory;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         factory = new PodamFactoryImpl();
     }
@@ -45,22 +45,22 @@ public class UserServiceTest {
 
         List<User> users = userService.getAllUsers();
 
-        Assert.assertNotNull(users);
-        Assert.assertEquals(users.size(), userList.size());
-        Assert.assertFalse(users.isEmpty());
-        Assert.assertEquals(users.getFirst().getId(), userList.getFirst().getId());
-        Assert.assertEquals(users.getFirst().getName(), userList.getFirst().getName());
-        Assert.assertEquals(users.getFirst().getEmail(), userList.getFirst().getEmail());
+        Assertions.assertNotNull(users);
+        Assertions.assertEquals(users.size(), userList.size());
+        Assertions.assertFalse(users.isEmpty());
+        Assertions.assertEquals(users.getFirst().getId(), userList.getFirst().getId());
+        Assertions.assertEquals(users.getFirst().getName(), userList.getFirst().getName());
+        Assertions.assertEquals(users.getFirst().getEmail(), userList.getFirst().getEmail());
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void testCreateUsersFailed() throws Exception {
 
         User user = factory.manufacturePojo(User.class);
 
         Mockito.when(userRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(user));
 
-        userService.createUser(user.getName(), user.getEmail());
+        Assertions.assertThrows(Exception.class, () -> userService.createUser(user.getName(), user.getEmail()));
     }
 
     @Test
@@ -73,24 +73,24 @@ public class UserServiceTest {
 
         User createdUser = userService.createUser(user.getName(), user.getEmail());
 
-        Assert.assertNotNull(createdUser);
-        Assert.assertEquals(createdUser.getId(), user.getId());
-        Assert.assertEquals(createdUser.getName(), user.getName());
-        Assert.assertEquals(createdUser.getEmail(), user.getEmail());
+        Assertions.assertNotNull(createdUser);
+        Assertions.assertEquals(createdUser.getId(), user.getId());
+        Assertions.assertEquals(createdUser.getName(), user.getName());
+        Assertions.assertEquals(createdUser.getEmail(), user.getEmail());
 
     }
 
-    @Test(expected = UserNotFoundException.class)
+    @Test
     public void testChangeEmailButUserNotFound() {
 
         ChangeEmailRequestDto request = factory.manufacturePojo(ChangeEmailRequestDto.class);
 
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
 
-        userService.changeEmail(1L, request);
+        Assertions.assertThrows(UserNotFoundException.class, () -> userService.changeEmail(1L, request));
     }
 
-    @Test(expected = EmailAlreadyExistsException.class)
+    @Test
     public void testChangeEmailButEmailAlreadyExist() {
 
         User user1 = factory.manufacturePojo(User.class);
@@ -100,7 +100,7 @@ public class UserServiceTest {
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.of(user1));
         Mockito.when(userRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(user2));
 
-        userService.changeEmail(1L, request);
+        Assertions.assertThrows(EmailAlreadyExistsException.class, () -> userService.changeEmail(1L, request));
     }
 
     @Test

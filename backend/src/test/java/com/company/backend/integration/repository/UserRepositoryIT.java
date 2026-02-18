@@ -2,20 +2,17 @@ package com.company.backend.integration.repository;
 
 import com.company.backend.model.entity.User;
 import com.company.backend.repository.UserRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.Optional;
 
-@RunWith(SpringRunner.class)
 @DataJpaTest
 public class UserRepositoryIT {
 
@@ -27,7 +24,7 @@ public class UserRepositoryIT {
 
     private PodamFactory factory;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         factory = new PodamFactoryImpl();
     }
@@ -43,8 +40,8 @@ public class UserRepositoryIT {
 
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
 
-        Assert.assertTrue(optionalUser.isPresent());
-        Assert.assertEquals(optionalUser.get().getEmail(), user.getEmail());
+        Assertions.assertTrue(optionalUser.isPresent());
+        Assertions.assertEquals(optionalUser.get().getEmail(), user.getEmail());
     }
 
     @Test
@@ -54,7 +51,7 @@ public class UserRepositoryIT {
 
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
 
-        Assert.assertFalse(optionalUser.isPresent());
+        Assertions.assertFalse(optionalUser.isPresent());
     }
 
 }
