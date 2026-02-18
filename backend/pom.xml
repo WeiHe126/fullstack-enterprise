@@ -189,6 +189,10 @@
                         <configuration>
                             <dataFile>target/jacoco-it.exec</dataFile>
                             <outputDirectory>target/site/jacoco-it</outputDirectory>
+                            <formats>
+                                <format>XML</format>
+                                <format>HTML</format>
+                            </formats>
                         </configuration>
                     </execution>
                 </executions>
