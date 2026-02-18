@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3' 
+        maven 'Maven3'
     }
 
     environment {
@@ -10,14 +10,13 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Build & Compile') {
             steps {
                 dir('backend') {
                     sh 'mvn clean compile'
@@ -25,10 +24,11 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Unit & Integration Tests') {
             steps {
                 dir('backend') {
-                    sh 'mvn clean verify'
+                    // Ejecuta tests unitarios + integración
+                    sh 'mvn verify'
                 }
             }
         }
@@ -40,7 +40,10 @@ pipeline {
             steps {
                 dir('backend') {
                     withSonarQubeEnv('sonar') {
-                        sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'
+                        sh """
+                        mvn sonar:sonar \
+                          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco-it.xml
+                        """
                     }
                 }
             }
@@ -48,7 +51,7 @@ pipeline {
 
         stage('Quality Gate') {
             steps {
-                timeout(time: 2, unit: 'MINUTES') {
+                timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
