@@ -154,9 +154,9 @@
                 <version>0.8.10</version>
                 <configuration>
                     <excludes>
-                        <exclude>com/company/backend/model/**</exclude>
-                        <exclude>com/company/backend/exception/**</exclude>
-                        <exclude>com/company/backend/BackendApplication.class</exclude>
+                        <exclude>**/model/**/*</exclude>
+                        <exclude>**/exception/**/*</exclude>
+                        <exclude>**/BackendApplication.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -174,9 +174,9 @@
                         </goals>
                         <configuration>
                             <excludes>
-                                <exclude>com/company/backend/model/**</exclude>
-                                <exclude>com/company/backend/exception/**</exclude>
-                                <exclude>com/company/backend/BackendApplication.class</exclude>
+                                <exclude>**/model/**/*</exclude>
+                                <exclude>**/exception/**/*</exclude>
+                                <exclude>**/BackendApplication.class</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -201,9 +201,9 @@
                                 <format>HTML</format>
                             </formats>
                             <excludes>
-                                <exclude>com/company/backend/model/**</exclude>
-                                <exclude>com/company/backend/exception/**</exclude>
-                                <exclude>com/company/backend/BackendApplication.class</exclude>
+                                <exclude>**/model/**/*</exclude>
+                                <exclude>**/exception/**/*</exclude>
+                                <exclude>**/BackendApplication.class</exclude>
                             </excludes>
                         </configuration>
                     </execution>
