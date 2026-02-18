@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+class UserServiceTest {
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -37,7 +37,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetAllUsers() {
+    void testGetAllUsers() {
 
         List<User> userList = factory.manufacturePojo(List.class, User.class);
 
@@ -54,7 +54,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testCreateUsersFailed() throws Exception {
+    void testCreateUsersFailed() throws Exception {
 
         User user = factory.manufacturePojo(User.class);
 
@@ -64,7 +64,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testCreateUsersSuccess() throws Exception {
+    void testCreateUsersSuccess() throws Exception {
 
         User user = factory.manufacturePojo(User.class);
 
@@ -81,7 +81,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testChangeEmailButUserNotFound() {
+    void testChangeEmailButUserNotFound() {
 
         ChangeEmailRequestDto request = factory.manufacturePojo(ChangeEmailRequestDto.class);
 
@@ -91,7 +91,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testChangeEmailButEmailAlreadyExist() {
+    void testChangeEmailButEmailAlreadyExist() {
 
         User user1 = factory.manufacturePojo(User.class);
         User user2 = factory.manufacturePojo(User.class);
@@ -104,7 +104,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testChangeEmailSuccess() {
+    void testChangeEmailSuccess() {
 
         User user1 = factory.manufacturePojo(User.class);
         ChangeEmailRequestDto request = factory.manufacturePojo(ChangeEmailRequestDto.class);

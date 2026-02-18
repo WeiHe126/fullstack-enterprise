@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class UserControllerIT {
+class UserControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -47,7 +47,7 @@ public class UserControllerIT {
     }
 
     @Test
-    public void testListUsersEmpty() throws Exception {
+    void testListUsersEmpty() throws Exception {
         mockMvc.perform(get("/api/users"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -55,7 +55,7 @@ public class UserControllerIT {
     }
 
     @Test
-    public void testListUsers() throws Exception {
+    void testListUsers() throws Exception {
 
         User user1 = factory.manufacturePojo(User.class);
         User user2 = factory.manufacturePojo(User.class);
@@ -92,7 +92,7 @@ public class UserControllerIT {
     }
 
     @Test
-    public void testCreateUserSucess() throws Exception {
+    void testCreateUserSucess() throws Exception {
 
         User user1 = factory.manufacturePojo(User.class);
         user1.setId(null);

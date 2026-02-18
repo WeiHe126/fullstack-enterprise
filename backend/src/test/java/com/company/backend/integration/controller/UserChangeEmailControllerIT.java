@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class UserChangeEmailControllerIT {
+class UserChangeEmailControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,7 +41,7 @@ public class UserChangeEmailControllerIT {
     }
 
     @Test
-    public void testChangeEmailButUserNotFound() throws Exception {
+    void testChangeEmailButUserNotFound() throws Exception {
 
         User user1 = factory.manufacturePojo(User.class);
         user1.setId(null);
@@ -57,7 +57,7 @@ public class UserChangeEmailControllerIT {
     }
 
     @Test
-    public void testChangeEmailButEmailAlreeadyExist() throws Exception {
+    void testChangeEmailButEmailAlreeadyExist() throws Exception {
 
         User user1 = factory.manufacturePojo(User.class);
         user1.setId(null);
@@ -73,7 +73,7 @@ public class UserChangeEmailControllerIT {
     }
 
     @Test
-    public void testChangeEmailButEmailAlreeadySucess() throws Exception {
+    void testChangeEmailButEmailAlreeadySucess() throws Exception {
 
         User user1 = factory.manufacturePojo(User.class);
         user1.setId(null);

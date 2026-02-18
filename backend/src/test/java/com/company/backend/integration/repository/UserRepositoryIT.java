@@ -14,7 +14,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 import java.util.Optional;
 
 @DataJpaTest
-public class UserRepositoryIT {
+class UserRepositoryIT {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -30,7 +30,7 @@ public class UserRepositoryIT {
     }
 
     @Test
-    public void testFindByEmail() {
+    void testFindByEmail() {
 
         User user = factory.manufacturePojo(User.class);
         user.setId(null);
@@ -45,7 +45,7 @@ public class UserRepositoryIT {
     }
 
     @Test
-    public void testFindByEmailNotFound() {
+    void testFindByEmailNotFound() {
 
         User user = factory.manufacturePojo(User.class);
 
