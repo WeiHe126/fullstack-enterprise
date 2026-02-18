@@ -3,6 +3,7 @@ pipeline {
 
     tools {
         maven 'Maven3' 
+        jdk 'Java21'
     }
 
     environment {
@@ -34,11 +35,12 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
+            environment {
+                SONAR_HOST_URL = 'http://sonarqube:9000'
+            }
             steps {
-                dir('backend') {
-                    withSonarQubeEnv('sonar') {
-                        sh 'mvn sonar:sonar'
-                    }
+                withSonarQubeEnv('sonar') {
+                    sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'
                 }
             }
         }

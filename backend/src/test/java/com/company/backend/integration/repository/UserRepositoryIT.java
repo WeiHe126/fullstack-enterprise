@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class UserRepositoryTest {
+public class UserRepositoryIT {
 
     @Autowired
     private TestEntityManager entityManager;
