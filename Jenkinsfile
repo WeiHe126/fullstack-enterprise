@@ -1,10 +1,15 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3.9.6-eclipse-temurin-21'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
 
     options {
         skipDefaultCheckout(true)
     }
-    
+
     tools {
         maven 'Maven3'
     }
@@ -16,7 +21,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                deleteDir() // borra todo el workspace
                 checkout([$class: 'GitSCM',
                         branches: [[name: '*/master']],
                         userRemoteConfigs: [[url: 'https://github.com/WeiHe126/fullstack-enterprise']]])
