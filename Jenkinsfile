@@ -12,6 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                deleteDir()
                 git url: 'https://github.com/WeiHe126/fullstack-enterprise', branch: 'master'
             }
         }
