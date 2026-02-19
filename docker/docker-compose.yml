@@ -42,7 +42,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - sonarqube
-
+    privileged: true
 
 
 volumes:

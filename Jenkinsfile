@@ -11,7 +11,6 @@ pipeline {
 
     environment {
         SONARQUBE_ENV = 'sonar'
-        DOCKER_HOST = "tcp://host.docker.internal:2375"
     }
 
     stages {
