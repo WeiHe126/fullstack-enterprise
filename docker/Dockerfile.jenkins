@@ -1,0 +1,12 @@
+FROM jenkins/jenkins:lts
+
+# Cambiamos a root para poder instalar paquetes
+USER root
+
+# Instalamos Docker y Git
+RUN apt-get update && \
+    apt-get install -y docker.io git && \
+    rm -rf /var/lib/apt/lists/*
+
+# Volvemos a jenkins user
+USER jenkins
