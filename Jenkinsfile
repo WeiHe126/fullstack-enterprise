@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.9.6-eclipse-temurin-21'
+            image 'jenkins-agent-docker:latest'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
