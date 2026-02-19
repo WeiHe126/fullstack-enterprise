@@ -12,8 +12,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                deleteDir()
-                git url: 'https://github.com/WeiHe126/fullstack-enterprise', branch: 'master'
+                deleteDir() // borra todo el workspace
+                checkout([$class: 'GitSCM',
+                        branches: [[name: '*/master']],
+                        userRemoteConfigs: [[url: 'https://github.com/WeiHe126/fullstack-enterprise']]])
             }
         }
 
