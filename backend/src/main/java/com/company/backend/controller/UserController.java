@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping
-    UserResponseDto createUser(@NotNull String username, @NotNull String email) throws Exception {
+    UserResponseDto createUser(@NotNull String username, @NotNull String email) {
 
         User user = userService.createUser(username, email);
 

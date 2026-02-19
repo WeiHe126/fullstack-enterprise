@@ -27,12 +27,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(String username, String email) throws Exception {
+    public User createUser(String username, String email) {
 
         Optional<User> existUser = userRepository.findByEmail(email);
 
         if (existUser.isPresent())
-            throw new Exception("User email already exist");
+            throw new EmailAlreadyExistsException(email);
 
         return userRepository.save(new User(username, email));
     }

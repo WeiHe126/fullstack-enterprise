@@ -112,6 +112,6 @@ class UserServiceTest {
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.of(user1));
         Mockito.when(userRepository.findByEmail(Mockito.any())).thenReturn(Optional.empty());
 
-        userService.changeEmail(1L, request);
+        Assertions.assertDoesNotThrow(() -> userService.changeEmail(1L, request));
     }
 }

@@ -1,10 +1,9 @@
 package com.company.backend.integration.controller;
 
+import com.company.backend.integration.AbstractPostgresContainerTest;
 import com.company.backend.model.entity.User;
 import com.company.backend.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -24,10 +23,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@Testcontainers
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@Transactional
-class UserControllerIT {
+class UserControllerIT extends AbstractPostgresContainerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -82,13 +81,11 @@ class UserControllerIT {
 
         userRepository.save(user1);
 
-        Assertions.assertThrows(ServletException.class, () ->
-                mockMvc.perform(post("/api/users")
-                                .param("username", user1.getName())
-                                .param("email", user1.getEmail())
-                                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
-                        .andExpect(status().isInternalServerError())
-        );
+        mockMvc.perform(post("/api/users")
+                        .param("username", user1.getName())
+                        .param("email", user1.getEmail())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isConflict());
     }
 
     @Test

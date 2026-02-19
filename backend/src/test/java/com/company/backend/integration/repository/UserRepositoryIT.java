@@ -1,23 +1,24 @@
 package com.company.backend.integration.repository;
 
+import com.company.backend.integration.AbstractPostgresContainerTest;
 import com.company.backend.model.entity.User;
 import com.company.backend.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.Optional;
 
+@Testcontainers
 @DataJpaTest
-class UserRepositoryIT {
-
-    @Autowired
-    private TestEntityManager entityManager;
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class UserRepositoryIT extends AbstractPostgresContainerTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -35,8 +36,7 @@ class UserRepositoryIT {
         User user = factory.manufacturePojo(User.class);
         user.setId(null);
 
-        entityManager.persist(user);
-        entityManager.flush();
+        userRepository.save(user);
 
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
 

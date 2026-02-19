@@ -27,8 +27,15 @@ pipeline {
         stage('Unit & Integration Tests') {
             steps {
                 dir('backend') {
-                    // Ejecuta tests unitarios + integración
                     sh 'mvn verify'
+                }
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                dir('backend') {
+                    sh 'mvn dependency-check:check'
                 }
             }
         }
@@ -55,6 +62,20 @@ pipeline {
                 timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('backend') {
+                    sh 'docker build -t enterprise-backend:latest .'
+                }
+            }
+        }
+
+        stage('Deploy (Simulado)') {
+            steps {
+                sh 'docker run -d -p 8080:8080 enterprise-backend:latest'
             }
         }
     }
